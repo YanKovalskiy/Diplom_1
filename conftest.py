@@ -1,20 +1,29 @@
 import pytest
 
-from src.praktikum.bun import Bun
-from src.praktikum.ingredient import Ingredient
-from src.praktikum.ingredient_types import INGREDIENT_TYPE_FILLING
+from praktikum.database import Database
+from praktikum.burger import Burger
+
+
+@pytest.fixture(scope="session")
+def database():
+    return Database()
 
 
 @pytest.fixture
-def bun():
-    name = 'Флюоресцентная булка R2-D3'
-    price = 989.99
-    return Bun(name, price)
+def bun(database):
+    return database.available_buns()[0]
 
 
 @pytest.fixture
-def ingredient():
-    ingredient_type = INGREDIENT_TYPE_FILLING
-    name = 'Биокотлета из марсианской Магнолии'
-    price = 424
-    return Ingredient(ingredient_type, name, price)
+def first_ingredient(database):
+    return database.available_ingredients()[0]
+
+
+@pytest.fixture()
+def second_ingredient(database):
+    return database.available_ingredients()[3]
+
+
+@pytest.fixture()
+def burger():
+    return Burger()
