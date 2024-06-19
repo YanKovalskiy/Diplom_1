@@ -1,10 +1,7 @@
+from helpers import add_ingredients
+
+
 class TestBurger:
-
-    @staticmethod
-    def add_ingredients(burger, ingredients):
-        for ingredient in ingredients:
-            burger.add_ingredient(ingredient)
-
     def test_set_buns(self, burger, bun):
         burger.set_buns(bun)
 
@@ -17,21 +14,21 @@ class TestBurger:
 
     def test_add_two_ingredient(self, burger, first_ingredient, second_ingredient):
         ingredients = (first_ingredient, second_ingredient)
-        self.add_ingredients(burger, ingredients)
+        add_ingredients(burger, ingredients)
 
         assert first_ingredient in burger.ingredients
         assert second_ingredient in burger.ingredients
 
     def test_remove_ingredient_by_index(self, burger, first_ingredient, second_ingredient):
         ingredients = (first_ingredient, second_ingredient)
-        self.add_ingredients(burger, ingredients)
+        add_ingredients(burger, ingredients)
         burger.remove_ingredient(1)
 
         assert second_ingredient not in burger.ingredients
 
     def test_move_ingredient_to_new_position(self, burger, first_ingredient, second_ingredient):
         ingredients = (first_ingredient, second_ingredient)
-        self.add_ingredients(burger, ingredients)
+        add_ingredients(burger, ingredients)
         burger.move_ingredient(1, 0)
 
         assert burger.ingredients[0] == second_ingredient
@@ -39,7 +36,7 @@ class TestBurger:
     def test_get_price(self, burger, bun, first_ingredient, second_ingredient):
         burger.set_buns(bun)
         ingredients = (first_ingredient, second_ingredient)
-        self.add_ingredients(burger, ingredients)
+        add_ingredients(burger, ingredients)
         price = bun.price*2 + first_ingredient.price + second_ingredient.price
 
         assert burger.get_price() == price
@@ -47,7 +44,7 @@ class TestBurger:
     def test_get_receipt(self, burger, bun, first_ingredient, second_ingredient):
         burger.set_buns(bun)
         ingredients = (first_ingredient, second_ingredient)
-        self.add_ingredients(burger, ingredients)
+        add_ingredients(burger, ingredients)
 
         price = bun.price * 2 + first_ingredient.price + second_ingredient.price
         receipt = (f'(==== {bun.name} ====)\n'
@@ -57,4 +54,3 @@ class TestBurger:
                    f'Price: {price}')
 
         assert burger.get_receipt() == receipt
-
